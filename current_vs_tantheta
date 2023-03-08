@@ -1,0 +1,270 @@
+#PHSX 216 & 218 plotting code
+#Alex Lee
+#Updated February 2023
+
+#import packages and libraries, assign shortcut names
+%matplotlib inline
+from __future__ import division #only used if running python 2
+import numpy as np
+import matplotlib.pyplot as plt
+
+#-----------------------------------------------------------------------#
+#------------------------------Plot 1 of 3------------------------------#
+#-----------------------------------------------------------------------#
+
+#Data Section - Create Arrays for data. Perform necessary calculations.
+#CHANGE THE VARIABLE NAMES and numbers to match your data
+
+tan_theta1 = np.array([-1.732050808,-1.191753593,-0.839099631,-0.577350269,-0.363970234,0.363970234,0.577350269,0.839099631,1.191753593,1.732050808]) #what are units?
+Current1 = np.array([-0.0492,-0.0326,-0.0213,-0.0171,-0.0087,0.0112,0.01443,0.0217,0.0311,0.0518]) #what are units?
+
+
+#-------------------------------------------------------------#
+#Create array for uncertainties in y variable
+#CHANGE THE VARIABLE NAME and numbers to match your data 
+
+err_Current1 = np.array([.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001])
+
+
+#-------------------------------------------------------------#
+#---------------------Plotting Code Below---------------------#
+#-------------------------------------------------------------#
+
+#UPDATE THIS SECTION!!!
+
+#Re-assign variables as x, y, dy so that the remaining plotting code may remain generic
+x1 = tan_theta1             #this should be the array you want to plot on the x axis
+y1 = Current1             #this should be the array you want to plot on the y axis
+dy1 = err_Current1        #this should be your error in y array
+
+
+#update each of these 4 strings
+plot_title1= 'Current vs Tan(Theta) 100 Turns of Wire'
+x_label1= 'Tangent of Angle of Deflection (Dimensionless)'
+y_label1= 'Current (A)'
+slope_units1= 'Amperes'
+
+#update annotation placement with integer from 1 to 4, top R corner is 1 (counter-clockwise from there)
+annotation_placement1=2 
+
+
+#-----------------------------------------------------------------------#
+#------------------------------Plot 2 of 3------------------------------#
+#-----------------------------------------------------------------------#
+
+#Data Section - Create Arrays for data. Perform necessary calculations.
+#CHANGE THE VARIABLE NAMES and numbers to match your data
+
+tan_theta2 = np.array([-1.732050808,-1.191753593,-0.900404044,-0.577350269,-0.363970234,0.363970234,0.554309051,0.839099631,1.191753593,1.732050808]) #what are units?
+Current2 = np.array([-0.0256,-0.0161,-0.0135,-0.0079,-0.0043,0.0053,0.0073,0.01143,0.01708,0.0274]) #what are units?
+
+
+#-------------------------------------------------------------#
+#Create array for uncertainties in y variable
+#CHANGE THE VARIABLE NAME and numbers to match your data 
+
+err_Current2 = np.array([.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001])
+
+
+#-------------------------------------------------------------#
+#---------------------Plotting Code Below---------------------#
+#-------------------------------------------------------------#
+
+#UPDATE THIS SECTION!!!
+
+#Re-assign variables as x, y, dy so that the remaining plotting code may remain generic
+x2 = tan_theta2             #this should be the array you want to plot on the x axis
+y2 = Current2             #this should be the array you want to plot on the y axis
+dy2 = err_Current2        #this should be your error in y array
+
+
+#update each of these 4 strings
+plot_title2= 'Current vs Tan(Theta) 200 Turns of Wire'
+x_label2= 'Tangent of Angle of Deflection (Dimensionless)'
+y_label2= 'Current (A)'
+slope_units2= 'Amperes'
+
+#update annotation placement with integer from 1 to 4, top R corner is 1 (counter-clockwise from there)
+annotation_placement2=2 
+
+
+#-----------------------------------------------------------------------#
+#------------------------------Plot 3 of 3------------------------------#
+#-----------------------------------------------------------------------#
+
+#Data Section - Create Arrays for data. Perform necessary calculations.
+#CHANGE THE VARIABLE NAMES and numbers to match your data
+
+tan_theta3 = np.array([-1.732050808,-1.150368407,-0.839099631,-0.577350269,-0.383864035,0.363970234,0.554309051,0.869286738,1.191753593,1.732050808]) #what are units?
+Current3 = np.array([-0.0153,-0.0098,-0.0078,-0.0052,-0.0034,0.0029,0.0049,0.0074,0.0118,0.0157]) #what are units?
+
+
+#-------------------------------------------------------------#
+#Create array for uncertainties in y variable
+#CHANGE THE VARIABLE NAME and numbers to match your data 
+
+err_Current3 = np.array([.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001,.0001])
+
+
+#-------------------------------------------------------------#
+#---------------------Plotting Code Below---------------------#
+#-------------------------------------------------------------#
+
+#UPDATE THIS SECTION!!!
+
+#Re-assign variables as x, y, dy so that the remaining plotting code may remain generic
+x3 = tan_theta3             #this should be the array you want to plot on the x axis
+y3 = Current3             #this should be the array you want to plot on the y axis
+dy3 = err_Current3        #this should be your error in y array
+
+
+#update each of these 4 strings
+plot_title3= 'Current vs Tan(Theta) 300 Turns of Wire'
+x_label3= 'Tangent of Angle of Deflection (Dimensionless)'
+y_label3= 'Current (A)'
+slope_units3= 'Amperes'
+
+#update annotation placement with integer from 1 to 4, top R corner is 1 (counter-clockwise from there)
+annotation_placement3=2 
+
+#------------------------------------------------------------------------#
+#-----------Don't need to change anything beyond this point!-------------#
+#------------------------------------------------------------------------#
+
+#Find the intercept and slope, b and m, from Python's polynomial fitting function
+b1,m1=np.polynomial.polynomial.polyfit(x1,y1,1,w=dy1)
+b2,m2=np.polynomial.polynomial.polyfit(x2,y2,1,w=dy2)
+b3,m3=np.polynomial.polynomial.polyfit(x3,y3,1,w=dy3)
+
+#Write the equation for the best fit line based on the slope and intercept
+fit1 = b1+m1*x1
+fit2 = b2+m2*x2
+fit3 = b3+m3*x3
+
+#Calculate the error in slope and intercept 
+
+def Delta(x, dy):
+    D = (sum(1/dy**2))*(sum(x**2/dy**2))-(sum(x/dy**2))**2
+    return D
+ 
+D1=Delta(x1, dy1)
+D2=Delta(x2, dy2)
+D3=Delta(x3, dy3)
+
+dm1 = np.sqrt(1/D1*sum(1/dy1**2)) #error in slope
+dm2 = np.sqrt(1/D2*sum(1/dy2**2)) #error in slope
+dm3 = np.sqrt(1/D3*sum(1/dy3**2)) #error in slope
+
+db1 = np.sqrt(1/D1*sum(x1**2/dy1**2)) #error in intercept
+db2 = np.sqrt(1/D2*sum(x2**2/dy2**2)) #error in intercept
+db3 = np.sqrt(1/D3*sum(x3**2/dy3**2)) #error in intercept
+
+#Calculate the "goodness of fit" using linear least squares fitting
+#(the closer to 0, the better the fit)
+def LLSFD2(x,y,dy,b,m):
+    N = sum(((y-b-m*x)/dy)**2)
+    return N
+                      
+N1 = LLSFD2(x1,y1,dy1,b1,m1)
+N2 = LLSFD2(x2,y2,dy2,b2,m2)
+N3 = LLSFD2(x3,y3,dy3,b3,m3)
+
+#assign annotation positions based on annotation_placement value (1/3)
+if annotation_placement1==2 or annotation_placement1==3:
+    xpos1=0.05
+elif annotation_placement1==1 or annotation_placement1==4:
+    xpos1=0.75
+
+if annotation_placement1==1 or annotation_placement1==2:
+    ypos1=[.9,.85,.8]
+elif annotation_placement1==3 or annotation_placement1==4:
+    ypos1=[.2,.15,.1]
+
+#assign annotation positions based on annotation_placement value (2/3)
+if annotation_placement2==2 or annotation_placement2==3:
+    xpos2=0.05
+elif annotation_placement2==1 or annotation_placement2==4:
+    xpos2=0.75
+
+if annotation_placement2==1 or annotation_placement2==2:
+    ypos2=[.9,.85,.8]
+elif annotation_placement2==3 or annotation_placement2==4:
+    ypos2=[.2,.15,.1]
+
+#assign annotation positions based on annotation_placement value (3/3)
+if annotation_placement3==2 or annotation_placement3==3:
+    xpos3=0.05
+elif annotation_placement3==1 or annotation_placement3==4:
+    xpos3=0.75
+
+if annotation_placement3==1 or annotation_placement3==2:
+    ypos3=[.9,.85,.8]
+elif annotation_placement3==3 or annotation_placement3==4:
+    ypos3=[.2,.15,.1]
+#-----------------------------------------------------------------------#
+#Don't need to change anything in this section!
+
+#Plot data on graph. Plot error bars and place values for slope, 
+#error in slope and goodness of fit on the plot using "annotate"
+
+
+fig,axs=plt.subplots(3,1,figsize=(10,20))
+
+axs[0].plot(x1, fit1, color='green', linestyle='--')
+axs[0].scatter(x1, y1, color='blue',marker='o')
+axs[0].set_xlabel(x_label1) 
+axs[0].set_ylabel(y_label1) 
+axs[0].set_title(plot_title1) 
+
+axs[0].errorbar(x1, y1, yerr=dy1, xerr=None, fmt="none") #don't need to plot x error bars
+ 
+axs[0].annotate('Slope ({}) = {value:.{digits}E}'.format(slope_units1,value=m1, digits=2),
+             (xpos1, ypos1[0]), xycoords='axes fraction')
+ 
+axs[0].annotate('Error in Slope ({}) = {value:.{digits}E}'.format(slope_units1,value=dm1, digits=1),
+             (xpos1, ypos1[1]), xycoords='axes fraction')
+ 
+axs[0].annotate('Goodness of fit = {value:.{digits}E}'.format(value=N1, digits=2),
+             (xpos1, ypos1[2]), xycoords='axes fraction')
+
+
+
+axs[1].plot(x2, fit2, color='green', linestyle='--')
+axs[1].scatter(x2, y2, color='blue',marker='o')
+axs[1].set_xlabel(x_label2) 
+axs[1].set_ylabel(y_label2) 
+axs[1].set_title(plot_title2) 
+
+axs[1].errorbar(x2, y2, yerr=dy2, xerr=None, fmt="none") #don't need to plot x error bars
+ 
+axs[1].annotate('Slope ({}) = {value:.{digits}E}'.format(slope_units2,value=m2, digits=2),
+             (xpos2, ypos2[0]), xycoords='axes fraction')
+ 
+axs[1].annotate('Error in Slope ({}) = {value:.{digits}E}'.format(slope_units2,value=dm2, digits=1),
+             (xpos2, ypos2[1]), xycoords='axes fraction')
+ 
+axs[1].annotate('Goodness of fit = {value:.{digits}E}'.format(value=N2, digits=2),
+             (xpos2, ypos2[2]), xycoords='axes fraction')
+
+
+
+axs[2].plot(x3, fit3, color='green', linestyle='--')
+axs[2].scatter(x3, y3, color='blue',marker='o')
+axs[2].set_xlabel(x_label3) 
+axs[2].set_ylabel(y_label3) 
+axs[2].set_title(plot_title3) 
+
+axs[2].errorbar(x3, y3, yerr=dy3, xerr=None, fmt="none") #don't need to plot x error bars
+ 
+axs[2].annotate('Slope ({}) = {value:.{digits}E}'.format(slope_units3,value=m3, digits=2),
+             (xpos3, ypos3[0]), xycoords='axes fraction')
+ 
+axs[2].annotate('Error in Slope ({}) = {value:.{digits}E}'.format(slope_units3,value=dm3, digits=1),
+             (xpos3, ypos3[1]), xycoords='axes fraction')
+ 
+axs[2].annotate('Goodness of fit = {value:.{digits}E}'.format(value=N3, digits=2),
+             (xpos3, ypos3[2]), xycoords='axes fraction')
+
+
+
+plt.show()
